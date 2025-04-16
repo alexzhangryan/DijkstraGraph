@@ -1,0 +1,9 @@
+stages:
+    - submission feedback
+submission feedback:
+    stage: submission feedback
+    tags: 
+        - csl
+    image: registry.doit.wisc.edu/cdis/cs/courses/cs400/containers:latest
+    script:
+        - ./.checkSubmission
