@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+JUNITPATH="/libs/junit5.jar"
+JUNITFXPATH="/libs/junit5fx.jar"
+
+if [[ -f ${JUNITPATH} ]]; then
+    cp ${JUNITPATH} ../
+fi
+
+if [[ -f ${JUNITFXPATH} ]]; then
+    cp ${JUNITFXPATH} ../
+fi
+
+if [[ -d /javafx  ]]; then
+    cp -r /javafx ../javafx
+fi
+
+if [[ ! -f Makefile ]]; then
+	echo
+	echo "Submission Failed Check: no Makefile found"
+	exit 1
+fi
+
+if ! make -n startServer ; then
+	echo
+	echo "Submission Failed Check: Makefile does not include the target startServer"
+	exit 1
+fi
+
+if ! make -n runAllTests ; then
+    echo
+    echo "Submission Failed Check: Makefile does not include the target runAllTests"
+    exit 1
+fi
+
+if ! make -n clean ; then
+    echo
+    echo "Submission Failed Check: Makefile does not include the target clean"
+    exit 1
+fi
+
+if grep -Pv '//' WebApp.java | grep -Pq "Placeholder"; then
+    echo
+    echo "Submission Failed Check: WebApp.java includes references to placeholder classes"
+    exit 1
+fi
+
+echo
+echo "Submission Passed Basic Scan"
+exit 0
