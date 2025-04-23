@@ -34,8 +34,8 @@ public class WebApp {
 	// part of a requst URI and display response through standard out
 	if(args.length != 1) {
 	    throw new IllegalArgumentException("You must pass a command line" +
-	        " argument representing the port that this servers should be" +
-		" bound to when running this program.  Or a Query string.");
+					       " argument representing the port that this servers should be" +
+					       " bound to when running this program.  Or a Query string.");
 	}
 	int portNumber = -1;
 	try {
@@ -65,7 +65,7 @@ public class WebApp {
 	    System.out.println("Received Request with query: " + query);
 	    // extract argument key-value pairs from request query
 	    Map<String,String> keyValuePairs = parseQuery(
-					 exchange.getRequestURI().getQuery());
+							  exchange.getRequestURI().getQuery());
 	    System.out.println("Query includes args: "+keyValuePairs);
 	    
 	    // create backend and frontend objects to respond to this request
@@ -102,8 +102,8 @@ public class WebApp {
 		    String[] pair = arg.split("=");
 		    if(pair.length != 2)
 			throw new IllegalArgumentException("Unable to split "+
-			     "arg: " + arg+" into a key value pair around a "+
-			     "single = delimiter.");
+							   "arg: " + arg+" into a key value pair around a "+
+							   "single = delimiter.");
 		    map.put(pair[0],pair[1]);
 		});
 	return map;
@@ -125,12 +125,12 @@ public class WebApp {
 	if(keyValuePairs.containsKey("start") &&
 	   keyValuePairs.containsKey("end")) {
 	    response += frontend.generateShortestPathResponseHTML(
-					keyValuePairs.get("start"),
-					keyValuePairs.get("end")) + "</div>";
+								  keyValuePairs.get("start"),
+								  keyValuePairs.get("end")) + "</div>";
 	    // compute response for other request
 	} else if(keyValuePairs.containsKey("from")) {
 	    response += frontend.generateFurthestDestinationFromResponseHTML(
-					 keyValuePairs.get("from")) + "</div>";
+									     keyValuePairs.get("from")) + "</div>";
 	    // otherwise, leave response div blank 
 	} else
 	    response += "</div>";
