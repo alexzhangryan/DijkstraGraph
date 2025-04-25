@@ -179,7 +179,19 @@ public class HashtableMap<KeyType, ValueType> implements MapADT<KeyType, ValueTy
     }
 
   }
-
+  @Override
+  public List<KeyType> getKeys(){
+	  LinkedList<KeyType> keys = new LinkedList<>();
+	  for(LinkedList<Pair> lists : table){
+		  if(lists != null){
+			  for(Pair p : lists){
+				  if(p != null){
+					  keys.add(p.key);
+				  }
+			  }
+		  }
+	  }
+	  return keys;
   /**
    * tests get size and get capacity
    */

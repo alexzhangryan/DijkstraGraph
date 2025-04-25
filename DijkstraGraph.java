@@ -55,7 +55,7 @@ public class DijkstraGraph<NodeType, EdgeType extends Number> extends BaseGraph<
    * Constructor that sets the map that the graph uses.
    */
   public DijkstraGraph() {
-    super(new PlaceholderMap<>());
+    super(new HashtableMap<>());
   }
 
   /**
