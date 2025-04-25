@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+JUNITPATH="/libs/junit5.jar"
+
+if [[ ! -f groupAndRole.txt ]]; then
+  echo "Warning Submission Incomplete: submission does not contain groupAndRole.txt, which should not have been deleted."
+  exit 1
+fi
+
+if [[ $(grep -c backend groupAndRole.txt) == 1 ]]; then
+    ROLE=Backend
+else
+    if [[ $(grep -c frontend groupAndRole.txt) == 1 ]]; then
+	ROLE=Frontend
+    else
+	>&2 echo "Warning Submission Incomplete: unable to find role stored in groupAndRole.txt file"
+	exit 1;
+    fi
+fi
+
+ROLEFILE="${ROLE}.java"
+ROLEINTRF="${ROLE}Interface.java"
+
+if [[ ! -f ${ROLEFILE} ]]; then
+  echo "Warning Submission Incomplete: submission does not contain ${ROLEFILE}, but should"
+  exit 1
+fi
+
+if ! grep -Pzq "implements[^\{]{1,100}${ROLEINTRF%\.java}" ${ROLEFILE}; then
+  echo "Warning Submission Incomplete: ${ROLEFILE} does not implement ${ROLEINTRF%\.java}, but should"
+  exit 1
+fi
+
+if ! javac -cp .:${JUNITPATH} ${ROLEFILE}; then
+  echo "Warning Submission Incomplete: ${ROLEFILE} does not compile, but should"
+  exit 1
+fi
+
+if [[ ! -f "${ROLE}Tests.java" ]]; then
+  echo "Warning Submission Incomplete: submission does not contain ${ROLE}Tests.java file, but this is where your tests should be implemented"
+  exit 1
+fi
+
+echo "Submission Passed Basic Scan"
+exit 0
