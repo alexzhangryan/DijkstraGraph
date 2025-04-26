@@ -1,3 +1,4 @@
+import java.util.List;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -60,4 +61,117 @@ public class FrontendTests {
     Assertions.assertTrue(farResponse.contains("Mosse Humanities Building"));
     Assertions.assertTrue(farResponse.contains("Computer Sciences and Statistics"));
   }
+
+  /**
+   * tests shortest path response with given graph
+   */
+  @Test
+  public void IntegrationTest1() {
+    DijkstraGraph graph = new DijkstraGraph();
+    graph.insertNode("A");
+    graph.insertNode("B");
+    graph.insertNode("C");
+    graph.insertNode("D");
+    graph.insertNode("E");
+    graph.insertEdge("A", "B", 1.0);
+    graph.insertEdge("A", "C", 2.0);
+    graph.insertEdge("A", "E", 5.0);
+    graph.insertEdge("B", "D", 1.0);
+    graph.insertEdge("B", "E", 7.0);
+    graph.insertEdge("C", "D", 3.0);
+    graph.insertEdge("D", "E", 1.0);
+
+    Backend backend = new Backend(graph);
+    Frontend frontend = new Frontend(backend);
+
+    String response = frontend.generateShortestPathResponseHTML("A", "E");
+
+    Assertions.assertTrue(response.contains("A"));
+    Assertions.assertTrue(response.contains("E"));
+    Assertions.assertTrue(response.contains("B"));
+    Assertions.assertTrue(response.contains("D"));
+    Assertions.assertTrue(response.contains("3"));
+
+
+  }
+
+  // tests furthest response with given graph
+  @Test
+  public void IntegrationTest2() {
+    DijkstraGraph graph = new DijkstraGraph();
+    graph.insertNode("A");
+    graph.insertNode("B");
+    graph.insertNode("C");
+    graph.insertNode("D");
+    graph.insertNode("E");
+    graph.insertEdge("A", "B", 1.0);
+    graph.insertEdge("A", "C", 2.0);
+    graph.insertEdge("A", "E", 5.0);
+    graph.insertEdge("B", "D", 1.0);
+    graph.insertEdge("B", "E", 7.0);
+    graph.insertEdge("C", "D", 3.0);
+    graph.insertEdge("D", "E", 1.0);
+
+    Backend backend = new Backend(graph);
+    Frontend frontend = new Frontend(backend);
+
+    String response = frontend.generateFurthestDestinationFromResponseHTML("B");
+
+    Assertions.assertTrue(response.contains("E"));
+    Assertions.assertTrue(response.contains("B"));
+    Assertions.assertTrue(response.contains("D"));
+
+  }
+
+  /**
+   * tests get all locations
+   */
+  @Test
+  public void IntegrationTest3() {
+    DijkstraGraph graph = new DijkstraGraph();
+    graph.insertNode("Top Lane");
+    graph.insertNode("Baron Pit");
+    graph.insertNode("Mid Lane");
+    graph.insertNode("Bot lane");
+    graph.insertNode("Dragon Pit");
+
+    Backend backend = new Backend(graph);
+    Frontend frontend = new Frontend(backend);
+
+    List<String> response = backend.getListOfAllLocations();
+
+    Assertions.assertTrue(response.contains("Top Lane"));
+    Assertions.assertTrue(response.contains("Baron Pit"));
+    Assertions.assertTrue(response.contains("Mid Lane"));
+    Assertions.assertTrue(response.contains("Bot lane"));
+    Assertions.assertTrue(response.contains("Dragon Pit"));
+  }
+
+  /**
+   * tests null responses
+   */
+  @Test
+  public void IntegrationTest4() {
+    DijkstraGraph graph = new DijkstraGraph();
+    graph.insertNode("Top Lane");
+    graph.insertNode("Baron Pit");
+    graph.insertNode("Mid Lane");
+    graph.insertNode("Bot lane");
+    graph.insertNode("Dragon Pit");
+
+    Backend backend = new Backend(graph);
+    Frontend frontend = new Frontend(backend);
+
+    try {
+      frontend.generateFurthestDestinationFromResponseHTML("jungle");
+    } catch (Exception e) {
+      Assertions.assertTrue(true);
+    }
+    try {
+      frontend.generateShortestPathResponseHTML("jungle", "Baron Pit");
+    } catch (Exception e) {
+      Assertions.assertTrue(true);
+    }
+  }
+
 }

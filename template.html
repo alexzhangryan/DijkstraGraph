@@ -10,7 +10,7 @@
 	      window.location=window.location.pathname+"?start="+start+"&end="+end;
 	  };
 	  // then do the same for the other button in the secondPrompt div
-	  selector = "#secondPrompt input[type=button],button";
+	  selector = "#secondPrompt input[type=button],#secondPrompt button";
 	  button = document.querySelector(selector);
 	  button.onclick=event=>{
 	      let from=encodeURI(document.querySelector("#from").value);
