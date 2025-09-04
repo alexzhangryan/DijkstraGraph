@@ -21,4 +21,20 @@ The sample data is a Graphviz (.dot) file provided by the UW-Madison computer sc
 ```bash
 javac -cp .:../junit5.jar *.java
 ```
-WIP
+3. Start server
+```
+java -cp .:../junit5.jar WebApp
+```
+4. Go to [http://localhost:8080/](http://localhost:8080/)
+5. Type in any locations from the test data
+
+## How to Run Tests
+1. Download JUnit in the parent directory
+2. Compile classes
+```bash
+javac -cp .:../junit5.jar *.java
+```
+3. Run Tests:
+```
+java -cp .:../junit5.jar org.junit.platform.console.ConsoleLauncher --select-class=FrontendTests
+```
